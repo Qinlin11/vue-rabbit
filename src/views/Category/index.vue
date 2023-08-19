@@ -2,6 +2,7 @@
 import {getCategory2API} from "@/apis/category";
 import {getBannerAPI} from "@/apis/home";
 import {onMounted, ref} from "vue";
+import GoodsItem from "@/views/Home/components/GoodsItem.vue";
 //获取数据
 const categoryDate = ref({})
 //获取路由参数
@@ -38,9 +39,28 @@ onMounted(() => getBanner())
             <div class="home-banner">
                 <el-carousel height="500px">
                     <el-carousel-item v-for="item in bannerList" :key="item.id">
-                        <img :src="item.imgUrl" alt="">
+                        <img v-img-lazy="item.imgUrl" alt="">
                     </el-carousel-item>
                 </el-carousel>
+            </div>
+            <div class="sub-list">
+                <h3>全部分类</h3>
+                <ul>
+                    <li v-for="i in categoryDate.children" :key="i.id">
+                        <RouterLink to="/">
+                            <img v-img-lazy="i.picture" />
+                            <p>{{ i.name }}</p>
+                        </RouterLink>
+                    </li>
+                </ul>
+            </div>
+            <div class="ref-goods" v-for="item in categoryDate.children" :key="item.id">
+                <div class="head">
+                    <h3>- {{ item.name }}-</h3>
+                </div>
+                <div class="body">
+                    <GoodsItem v-for="good in item.goods" :good="good" :key="good.id" />
+                </div>
             </div>
         </div>
     </div>

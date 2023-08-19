@@ -2,7 +2,7 @@
 import HomePanel from './HomePanel.vue'
 import {getGoodsAPI} from "@/apis/home";
 import {onMounted, ref} from "vue";
-import Goodsitem from "@/views/Home/components/Goodsitem.vue";
+import Goodsitem from "@/views/Home/components/GoodsItem.vue";
 //获取数据列表
 const  goodsProduct = ref([])
 const getGoods = async () => {

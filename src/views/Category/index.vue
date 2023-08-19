@@ -7,11 +7,18 @@ import GoodsItem from "@/views/Home/components/GoodsItem.vue";
 const categoryDate = ref({})
 //获取路由参数
 const route = useRoute()
-const getCateGory = async () => {
-    const res = await getCategory2API(route.params.id)
+const getCateGory = async (id = route.params.id) => {
+    const res = await getCategory2API(id)
     categoryDate.value = res.data.result
 }
 onMounted(() => getCateGory())
+
+//目标：希望路由在变化的时候 可以把分类的数据接口重新发送
+
+onBeforeRouteUpdate((to) => {
+    //存在的问题： 使用最新的路由参数请求最新的分类数据
+    getCateGory(to.params.id)
+})
 
 //获取banner
 const bannerList = ref([])

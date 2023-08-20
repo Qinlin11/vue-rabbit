@@ -1,7 +1,8 @@
 <script setup>
 import {getDetail} from "@/apis/detail";
 import DetailHot from "@/views/Detail/components/DetailHot.vue";
-import ImageViewe from '@/components/ImageView/index.vue'
+
+
 const route = useRoute()
 const goods = ref({})
 const getGoods = async () => {
@@ -11,6 +12,10 @@ const getGoods = async () => {
 
 onMounted(() => getGoods())
 
+//四库规格被操作时
+const skuChange = (sku) => {
+    console.log(sku)
+}
 
 </script>
 
@@ -39,7 +44,7 @@ onMounted(() => getGoods())
                     <div class="goods-info">
                         <div class="media">
                             <!-- 图片预览区 -->
-                            <ImageViewe />
+                            <XtxImageView :image-list="goods.mainPictures" />
                             <!-- 统计数量 -->
                             <ul class="goods-sales">
                                 <li>
@@ -88,7 +93,7 @@ onMounted(() => getGoods())
                                 </dl>
                             </div>
                             <!-- sku组件 -->
-
+                            <XtxSku :goods="goods" @change="skuChange"/>
                             <!-- 数据组件 -->
 
                             <!-- 按钮组件 -->

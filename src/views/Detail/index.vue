@@ -1,7 +1,7 @@
 <script setup>
 import {getDetail} from "@/apis/detail";
 import DetailHot from "@/views/Detail/components/DetailHot.vue";
-
+import ImageViewe from '@/components/ImageView/index.vue'
 const route = useRoute()
 const goods = ref({})
 const getGoods = async () => {
@@ -39,7 +39,7 @@ onMounted(() => getGoods())
                     <div class="goods-info">
                         <div class="media">
                             <!-- 图片预览区 -->
-
+                            <ImageViewe />
                             <!-- 统计数量 -->
                             <ul class="goods-sales">
                                 <li>

@@ -5,7 +5,7 @@ import 'element-plus/theme-chalk/el-message.css'
 import { ElMessage } from 'element-plus'
 import {useRouter} from "vue-router";
 
-import {userUserStore} from "@/stores/user";
+import {userUserStore} from "@/stores/userStore";
 const userStore = userUserStore()
 //1.准备表达对象
 const form = ref({

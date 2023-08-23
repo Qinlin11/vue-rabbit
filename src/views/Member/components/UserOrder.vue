@@ -1,4 +1,5 @@
 <script setup>
+import {getUserOrder} from "@/apis/order";
 // tab列表
 const tabTypes = [
     { name: "all", label: "全部订单" },
@@ -9,14 +10,30 @@ const tabTypes = [
     { name: "complete", label: "已完成" },
     { name: "cancel", label: "已取消" }
 ]
-// 订单列表
-const orderList = []
 
+// 订单列表
+const orderList = ref([])
+const params = ref({
+    orderState:0,
+    page:1,
+    pageSize:2
+})
+const getOrderList = async () => {
+    const res = await getUserOrder(params.value)
+    orderList.value = res.result.items
+}
+onMounted(() => getOrderList())
+
+//tab切换
+const tabChange = (type) => {
+    params.value.orderState = type
+    getOrderList()
+}
 </script>
 
 <template>
     <div class="order-container">
-        <el-tabs>
+        <el-tabs @tab-change="tabChange">
             <!-- tab切换 -->
             <el-tab-pane v-for="item in tabTypes" :key="item.name" :label="item.label" />
 

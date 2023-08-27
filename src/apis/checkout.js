@@ -15,3 +15,11 @@ export const createOrderAPI = (data) => {
         data
     })
 }
+
+export const addAddressAPI = (data) => {
+    return request({
+        url:'/member/address',
+        method: 'post',
+        data
+    })
+}

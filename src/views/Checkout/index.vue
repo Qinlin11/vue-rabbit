@@ -1,7 +1,8 @@
 <script setup>
-import {getCheckInfoAPI, createOrderAPI} from "@/apis/checkout";
+import {getCheckInfoAPI, createOrderAPI, addAddressAPI} from "@/apis/checkout";
 import {useRouter} from "vue-router";
 import {useCartStore} from "@/stores/carStore";
+// import { EluiChinaAreaDht } from 'elui-china-area-dht'
 const cartStore = useCartStore()
 const router = useRouter()
 const checkInfo = ref({})  // 订单对象
@@ -18,7 +19,7 @@ onMounted(() => getCheckInfo())
 
 //控制弹窗打开
 const showDialog = ref(false)
-
+const addFlag = ref(false)
 
 //切换地址回调
 const activeAddress = ref({})
@@ -56,6 +57,44 @@ const createOrder = async () => {
     //更新购物车
     cartStore.updateNewList()
 }
+
+const addAddress = ref({
+    receiver: "",
+    contact: "",
+    provinceCode: "210000",
+    cityCode: "210200",
+    countyCode: "210202",
+    address: "",
+    postalCode: "111006",
+    addressTags: "家里",
+    isDefault: 1,
+    fullLocation: "辽宁省 大连市 中山区"
+})
+
+// //添加地址
+// const handleAreaChange = (area) => {
+//     console.log('Selected area:', area);
+// }
+
+const getAddAddress = async () => {
+    await addAddressAPI(addAddress.value)
+    addFlag.value =  false
+    addAddress.value = {
+        receiver: "",
+        contact: "",
+        provinceCode: "210000",
+        cityCode: "210200",
+        countyCode: "210202",
+        address: "",
+        postalCode: "111006",
+        addressTags: "家里",
+        isDefault: 1,
+        fullLocation: "辽宁省 大连市 中山区"
+    }
+    getCheckInfo()
+
+}
+
 
 </script>
 
@@ -173,7 +212,39 @@ const createOrder = async () => {
               <el-button type="primary" @click="confirm">确定</el-button>
             </span>
         </template>
-    </el-dialog>  <!-- 添加地址 -->
+    </el-dialog>
+    <!-- 添加地址 -->
+    <el-dialog v-model="addFlag" title="添加收货地址" width="30%" center>
+        <el-form label-position="left" label-width="80" :model="addAddress">
+            <el-form-item label="收货人">
+                <el-input placeholder='收货人' v-model="addAddress.receiver" />
+            </el-form-item>
+            <el-form-item label="联系方式">
+                <el-input placeholder='联系方式' v-model="addAddress.contact" />
+            </el-form-item>
+            <!--<el-form-item label="选择区域">-->
+            <!--    <elui-china-area-dht :leave="2"  @change="handleAreaChange" v-model="addAddress.fullLocation"></elui-china-area-dht>-->
+            <!--</el-form-item>-->
+            <el-form-item label="收货地址">
+                <el-input placeholder='xxx街xxx路' v-model="addAddress.address" />
+            </el-form-item>
+            <el-form-item label="默认地址">
+                <el-radio-group v-model="addAddress.isDefault">
+                    <el-radio label="0">是</el-radio>
+                    <el-radio label="1">否</el-radio>
+                </el-radio-group>
+            </el-form-item>
+        </el-form>
+
+        <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="addFlag = false">取消</el-button>
+        <el-button type="primary" @click="getAddAddress">
+          确认
+        </el-button>
+      </span>
+        </template>
+    </el-dialog>
 </template>
 
 <style scoped lang="scss">
@@ -387,5 +458,8 @@ const createOrder = async () => {
       line-height: 30px;
     }
   }
+}
+.dialog-footer button:first-child {
+    margin-right: 10px;
 }
 </style>

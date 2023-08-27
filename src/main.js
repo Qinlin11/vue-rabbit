@@ -12,7 +12,6 @@ import '@/styles/common.scss'
 import {lazyPlugin} from "@/directtives";
 //引入全局组件
 import {componentsPlugin} from "@/components";
-
 const app = createApp(App)
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
